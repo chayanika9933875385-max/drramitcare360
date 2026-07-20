@@ -3,94 +3,446 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrRamitCare 360</title>
+  <title>DrRamitCare 360 — Your Personal Digital Health Office</title>
   <style>
-    /* Aapka CSS yahan aayega */
-    body { margin: 0; font-family: Arial, sans-serif; background: #f5f5f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; color: #222; }
+
+    /* HEADER */
     header {
       background: #0b2540;
-      color: white;
-      padding: 20px 40px;
+      padding: 16px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
-    .logo { font-size: 24px; font-weight: bold; color: #d4a24c; }
-    nav a { color: white; text-decoration: none; margin-left: 20px; }
+    .logo { font-size: 22px; font-weight: 800; color: #d4a24c; letter-spacing: 1px; }
+    .logo span { color: #fff; font-weight: 400; font-size: 14px; display: block; margin-top: 2px; }
+    nav { display: flex; gap: 24px; align-items: center; }
+    nav a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #d4a24c; }
+    .nav-btn {
+      background: #d4a24c;
+      color: #0b2540 !important;
+      padding: 9px 22px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+    }
+    .nav-btn:hover { background: #c49040; }
+
+    /* HERO */
     .hero {
+      background: linear-gradient(135deg, #0b2540 0%, #1a3a5c 60%, #0b2540 100%);
+      color: white;
+      text-align: center;
+      padding: 100px 20px 80px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(212,162,76,0.15);
+      border: 1px solid #d4a24c;
+      color: #d4a24c;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .hero h1 span { color: #d4a24c; }
+    .hero p {
+      font-size: 18px;
+      color: #aac;
+      max-width: 580px;
+      margin: 16px auto 36px;
+      line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #d4a24c;
+      color: #0b2540;
+      padding: 15px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(212,162,76,0.4);
+    }
+    .btn-primary:hover { background: #c49040; transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 13px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: #d4a24c; color: #d4a24c; }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: #f8f9fa;
+      border-bottom: 1px solid #eee;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 32px; font-weight: 800; color: #0b2540; }
+    .stat-label { font-size: 13px; color: #777; margin-top: 2px; }
+
+    /* SECTION */
+    section { padding: 80px 40px; }
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-title h2 { font-size: 36px; font-weight: 800; color: #0b2540; }
+    .section-title p { color: #666; margin-top: 10px; font-size: 16px; }
+
+    /* 3 PILLARS */
+    .pillars { background: #fff; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); border-color: #d4a24c; }
+    .card-icon { font-size: 52px; margin-bottom: 20px; }
+    .card h3 { font-size: 20px; font-weight: 700; color: #0b2540; margin-bottom: 10px; }
+    .card p { color: #666; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+    .card-link {
+      color: #d4a24c;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* JOURNEY */
+    .journey { background: #f8f9fa; }
+    .steps {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .step {
+      flex: 1;
+      min-width: 120px;
+      text-align: center;
+      position: relative;
+      padding: 0 10px;
+    }
+    .step-circle {
+      width: 56px;
+      height: 56px;
+      background: #0b2540;
+      color: #d4a24c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin: 0 auto 12px;
+    }
+    .step h4 { font-size: 13px; font-weight: 700; color: #0b2540; }
+    .step-arrow {
+      font-size: 24px;
+      color: #d4a24c;
+      margin-top: 16px;
+      flex-shrink: 0;
+    }
+
+    /* FEATURES */
+    .features { background: #0b2540; color: white; }
+    .features .section-title h2 { color: #d4a24c; }
+    .features .section-title p { color: #aac; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .feature-item:hover { background: rgba(212,162,76,0.1); border-color: #d4a24c; }
+    .feature-item .fi { font-size: 32px; margin-bottom: 10px; }
+    .feature-item h4 { font-size: 14px; font-weight: 600; color: #fff; }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, #d4a24c, #c49040);
       text-align: center;
       padding: 80px 20px;
-      background: linear-gradient(135deg, #0b2540, #1a3a5c);
-      color: white;
     }
-    .hero h1 { font-size: 42px; color: #d4a24c; margin-bottom: 10px; }
-    .hero p { font-size: 18px; max-width: 600px; margin: 0 auto 30px; }
-    .btn {
-      background: #d4a24c; color: #0b2540;
-      padding: 14px 32px; border-radius: 50px;
-      text-decoration: none; font-weight: bold; font-size: 16px;
+    .cta h2 { font-size: 36px; font-weight: 800; color: #0b2540; margin-bottom: 12px; }
+    .cta p { color: #0b2540; opacity: 0.8; font-size: 17px; margin-bottom: 32px; }
+    .cta .btn-dark {
+      background: #0b2540;
+      color: #d4a24c;
+      padding: 16px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 17px;
+      display: inline-block;
+      transition: all 0.2s;
     }
-    .cards { display: flex; justify-content: center; gap: 20px; padding: 60px 20px; flex-wrap: wrap; }
-    .card {
-      background: white; border-radius: 16px; padding: 30px;
-      width: 280px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    .cta .btn-dark:hover { background: #0a1e35; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      background: #060f1a;
+      color: #aac;
       text-align: center;
+      padding: 32px 20px;
+      font-size: 14px;
     }
-    .card-icon { font-size: 48px; margin-bottom: 16px; }
-    .card h3 { color: #0b2540; margin-bottom: 10px; }
-    .card p { color: #666; font-size: 14px; }
+    footer a { color: #d4a24c; text-decoration: none; }
+
+    @media(max-width: 600px) {
+      header { padding: 14px 20px; }
+      nav { gap: 12px; }
+      nav a { font-size: 12px; }
+      .hero h1 { font-size: 30px; }
+      section { padding: 50px 20px; }
+      .stats-bar { gap: 30px; padding: 20px; }
+    }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <div class="logo">🩺 DrRamitCare 360</div>
+  <div class="logo">
+    🩺 DrRamitCare 360
+    <span>Your Personal Digital Health Office</span>
+  </div>
   <nav>
-    <a href="#home">Home</a>
-    <a href="#healthos">HealthOS</a>
-    <a href="#family">Family Office</a>
-    <a href="#membership">Membership</a>
-    <a href="register.html">Register</a>
+    <a href="#pillars">HealthOS</a>
+    <a href="#pillars">Family Office</a>
+    <a href="#pillars">Membership</a>
+    <a href="register.html" class="nav-btn">Get Health ID Free</a>
   </nav>
 </header>
 
-<div class="hero" id="home">
-  <h1>Your Personal Digital Health Office</h1>
-  <p>Lifelong health records, family management, preventive care — all in one place.</p>
-  <a href="register.html" class="btn">Get Your Free Health ID →</a>
-</div>
-
-<div class="cards" id="healthos">
-  <div class="card">
-    <div class="card-icon">🩺</div>
-    <h3>HealthOS</h3>
-    <p>Your personal health dashboard with Health ID, BMI, Dental Score & Lifestyle Score.</p>
-  </div>
-  <div class="card">
-    <div class="card-icon">👨‍👩‍👧</div>
-    <h3>Family Health Office</h3>
-    <p>Manage your entire family's health records in one account.</p>
-  </div>
-  <div class="card">
-    <div class="card-icon">🛡️</div>
-    <h3>Preventive Membership</h3>
-    <p>Year-round preventive care, reminders & personalized health guidance.</p>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🇮🇳 India's Preventive Digital Health Platform</div>
+  <h1>Your Personal<br><span>Digital Health Office</span></h1>
+  <p>Lifelong health records, family management, and year-round preventive care — all in one place. Free for everyone.</p>
+  <div class="hero-btns">
+    <a href="register.html" class="btn-primary">🎯 Get Your Free Health ID</a>
+    <a href="#pillars" class="btn-outline">Learn More ↓</a>
   </div>
 </div>
 
-<script>
-  // Apps Script ka URL yahan daalo (sirf API call ke liye)
-  const API_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
-  
-  // Example: data fetch karna
-  async function fetchData(action, params = {}) {
-    const url = new URL(API_URL);
-    url.searchParams.append('action', action);
-    Object.keys(params).forEach(k => url.searchParams.append(k, params[k]));
-    const res = await fetch(url.toString());
-    return await res.json();
-  }
-</script>
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Free Basic Plan</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Core Health Scores</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Lifelong Health Records</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">👨‍👩‍👧</div>
+    <div class="stat-label">Whole Family Covered</div>
+  </div>
+</div>
+
+<!-- 3 PILLARS -->
+<section class="pillars" id="pillars">
+  <div class="section-title">
+    <h2>Three Pillars of Your Health</h2>
+    <p>Everything you need to take control of your health journey</p>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-icon">🩺</div>
+      <h3>HealthOS</h3>
+      <p>Get your unique Health ID, personal dashboard, BMI tracker, Dental Score, and Lifestyle Score — all in one place.</p>
+      <a href="register.html" class="card-link">Get Started Free →</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">👨‍👩‍👧</div>
+      <h3>Family Health Office</h3>
+      <p>One account for the entire family. Manage medical reports, prescriptions, vaccinations, and dental history for everyone.</p>
+      <a href="register.html" class="card-link">Add Your Family →</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Preventive Membership</h3>
+      <p>Year-round preventive care with monthly health reviews, personalized reminders, and lifestyle guidance — not just consultations.</p>
+      <a href="register.html" class="card-link">Join Membership →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PATIENT JOURNEY -->
+<section class="journey">
+  <div class="section-title">
+    <h2>Your Health Journey</h2>
+    <p>Simple steps to lifelong preventive health</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-circle">🌐</div>
+      <h4>Visit Website</h4>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-circle">📝</div>
+      <h4>Register Free</h4>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-circle">🪪</div>
+      <h4>Get Health ID</h4>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-circle">📊</div>
+      <h4>Dashboard Access</h4>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-circle">👨‍👩‍👧</div>
+      <h4>Add Family</h4>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step">
+      <div class="step-circle">🛡️</div>
+      <h4>Join Membership</h4>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-title">
+    <h2>Everything Included — Free</h2>
+    <p>No hidden charges. Your basic health management is always free.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="fi">🪪</div>
+      <h4>Unique Health ID</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">📊</div>
+      <h4>Health Dashboard</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">⚖️</div>
+      <h4>BMI Calculator</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">🦷</div>
+      <h4>Dental Score</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">🏃</div>
+      <h4>Lifestyle Score</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">📅</div>
+      <h4>Appointments</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">📋</div>
+      <h4>Health Timeline</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">🔔</div>
+      <h4>Smart Reminders</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">📄</div>
+      <h4>Health Passport PDF</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">🧭</div>
+      <h4>Health Navigator</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">👨‍👩‍👧</div>
+      <h4>Family Office</h4>
+    </div>
+    <div class="feature-item">
+      <div class="fi">🛡️</div>
+      <h4>Preventive Guidance</h4>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h2>Start Your Health Journey Today</h2>
+  <p>Register free and get your personal Health ID in 2 minutes</p>
+  <a href="register.html" class="btn-dark">🎯 Get My Free Health ID</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>🩺 <strong style="color:#d4a24c">DrRamitCare 360</strong> — Your Personal Digital Health Office</p>
+  <p style="margin-top:8px">
+    📧 <a href="mailto:drramitprasad446@gmail.com">drramitprasad446@gmail.com</a>
+    &nbsp;|&nbsp;
+    📞 <a href="tel:+91XXXXXXXXXX">Contact Us</a>
+  </p>
+  <p style="margin-top:12px; color:#556; font-size:12px">© 2026 DrRamitCare 360. All rights reserved.</p>
+</footer>
 
 </body>
 </html>
