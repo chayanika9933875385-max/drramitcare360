@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — DrRamitCare 360</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; min-height: 100vh; }
+
+    header {
+      background: #0b2540;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo { font-size: 20px; font-weight: 800; color: #d4a24c; text-decoration: none; }
+    .logo span { color: #fff; font-weight: 400; font-size: 13px; display: block; }
+    nav a { color: #ccc; text-decoration: none; font-size: 14px; margin-left: 20px; }
+
+    .page-wrap {
+      max-width: 640px;
+      margin: 40px auto;
+      padding: 0 20px 60px;
+    }
+
+    .tab-btns {
+      display: flex;
+      background: #fff;
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #777;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #0b2540;
+      color: #d4a24c;
+    }
+
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .form-card h2 { font-size: 24px; font-weight: 800; color: #0b2540; margin-bottom: 6px; }
+    .form-card .sub { color: #888; font-size: 14px; margin-bottom: 28px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      color: #222;
+      background: #fafafa;
+      transition: border 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #d4a24c;
+      background: #fff;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #d4a24c;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 24px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #f0e4c8;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #444;
+      cursor: pointer;
+    }
+    .checkbox-item input { width: auto; }
+
+    .submit-btn {
+      width: 100%;
+      background: #d4a24c;
+      color: #0b2540;
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    .submit-btn:hover { background: #c49040; transform: translateY(-2px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* SUCCESS CARD */
+    .success-card {
+      display: none;
+      background: #fff;
+      border-radius: 20px;
+      padding: 50px 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .success-icon { font-size: 64px; margin-bottom: 16px; }
+    .health-id-box {
+      background: #0b2540;
+      color: #d4a24c;
+      font-size: 28px;
+      font-weight: 800;
+      padding: 16px 24px;
+      border-radius: 14px;
+      letter-spacing: 3px;
+      margin: 20px auto;
+      display: inline-block;
+    }
+    .scores-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin: 24px 0;
+      flex-wrap: wrap;
+    }
+    .score-box {
+      background: #f8f9fa;
+      border-radius: 14px;
+      padding: 18px 24px;
+      text-align: center;
+      min-width: 120px;
+    }
+    .score-num { font-size: 36px; font-weight: 800; color: #0b2540; }
+    .score-label { font-size: 12px; color: #888; margin-top: 4px; font-weight: 600; }
+    .score-box.gold .score-num { color: #d4a24c; }
+    .score-box.green .score-num { color: #27ae60; }
+
+    .dashboard-btn {
+      background: #d4a24c;
+      color: #0b2540;
+      padding: 14px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 16px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    /* ERROR */
+    .error-msg {
+      background: #fff0f0;
+      border: 1px solid #ffcccc;
+      color: #c0392b;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* LOGIN FORM */
+    #loginForm { display: none; }
+
+    @media(max-width: 500px) {
+      .form-card { padding: 24px 18px; }
+      .form-row { grid-template-columns: 1fr; }
+      .checkbox-grid { grid-template-columns: 1fr; }
+      header { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    🩺 DrRamitCare 360
+    <span>Your Personal Digital Health Office</span>
+  </a>
+  <nav>
+    <a href="index.html">← Home</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+
+  <!-- TAB BUTTONS -->
+  <div class="tab-btns">
+    <button class="tab-btn active" onclick="showTab('register')">📝 New Registration</button>
+    <button class="tab-btn" onclick="showTab('login')">🔐 Already Registered</button>
+  </div>
+
+  <!-- REGISTER FORM -->
+  <div id="registerForm">
+    <div class="form-card">
+      <h2>📝 Patient Registration</h2>
+      <p class="sub">Fill in the details below to get your free Health ID</p>
+
+      <div class="error-msg" id="regError"></div>
+
+      <div class="section-label">Personal Information</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="reg_name" placeholder="Dr. / Mr. / Mrs. / Ms." required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="reg_phone" placeholder="10-digit mobile number" maxlength="10" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="reg_email" placeholder="For reminders & reports">
+        </div>
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="date" id="reg_dob">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Gender *</label>
+          <select id="reg_gender" required>
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Blood Group</label>
+          <select id="reg_blood">
+            <option value="">Select</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>O+</option><option>O-</option>
+            <option>AB+</option><option>AB-</option>
+            <option>Don't Know</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Height (cm)</label>
+          <input type="number" id="reg_height" placeholder="e.g. 165">
+        </div>
+        <div class="form-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="reg_weight" placeholder="e.g. 68">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Known Allergies</label>
+        <input type="text" id="reg_allergies" placeholder="e.g. Penicillin, Dust, None">
+      </div>
+      <div class="form-group">
+        <label>Existing Medical Conditions</label>
+        <input type="text" id="reg_conditions" placeholder="e.g. Diabetes, Hypertension, None">
+      </div>
+
+      <div class="section-label">🦷 Dental Health (for Dental Score)</div>
+      <div class="checkbox-grid">
+        <label class="checkbox-item">
+          <input type="checkbox" id="d_brush"> Brush twice daily
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="d_floss"> Use dental floss
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="d_bleeding"> Gum bleeding
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="d_tobacco"> Tobacco / Pan chewing
+        </label>
+      </div>
+      <div class="form-group" style="margin-top:14px">
+        <label>Last Dental Visit</label>
+        <select id="d_lastvisit">
+          <option value="">Select</option>
+          <option value="6months">Within 6 months</option>
+          <option value="1year">Within 1 year</option>
+          <option value="2years">2+ years ago</option>
+          <option value="never">Never visited</option>
+        </select>
+      </div>
+
+      <div class="section-label">🏃 Lifestyle (for Lifestyle Score)</div>
+      <div class="checkbox-grid">
+        <label class="checkbox-item">
+          <input type="checkbox" id="l_exercise"> Exercise regularly
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="l_sleep"> Sleep 7+ hours
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="l_fruits"> Eat fruits & vegetables
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="l_smoking"> Currently smoking
+        </label>
+      </div>
+      <div class="form-group" style="margin-top:14px">
+        <label>Stress Level</label>
+        <select id="l_stress">
+          <option value="">Select</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+
+      <div class="section-label">🔐 Set Password</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" id="reg_password" placeholder="Min 6 characters" required>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password *</label>
+          <input type="password" id="reg_confirm" placeholder="Repeat password" required>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitRegistration()" id="regBtn">
+        🎯 Register & Get My Free Health ID
+      </button>
+    </div>
+  </div>
+
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <div class="form-card">
+      <h2>🔐 Login to Your Dashboard</h2>
+      <p class="sub">Enter your registered phone number and password</p>
+
+      <div class="error-msg" id="loginError"></div>
+
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="login_phone" placeholder="Registered mobile number" maxlength="10">
+      </div>
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" id="login_password" placeholder="Your password">
+      </div>
+
+      <button class="submit-btn" onclick="submitLogin()" id="loginBtn">
+        🔓 Login to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- SUCCESS CARD -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">🎉</div>
+    <h2 style="color:#0b2540; font-size:26px">Registration Successful!</h2>
+    <p style="color:#666; margin-top:8px">Welcome to DrRamitCare 360</p>
+    <p style="color:#888; font-size:14px; margin-top:4px">Your unique Health ID:</p>
+    <div class="health-id-box" id="displayHealthId">DRC-2026-XXXXX</div>
+    <p style="color:#888; font-size:13px; margin-top:4px">Save this ID — you will need it to login</p>
+
+    <div class="scores-row">
+      <div class="score-box gold">
+        <div class="score-num" id="displayDental">--</div>
+        <div class="score-label">🦷 Dental Score</div>
+      </div>
+      <div class="score-box">
+        <div class="score-num" id="displayBMI">--</div>
+        <div class="score-label">⚖️ BMI</div>
+      </div>
+      <div class="score-box green">
+        <div class="score-num" id="displayLifestyle">--</div>
+        <div class="score-label">🏃 Lifestyle Score</div>
+      </div>
+    </div>
+
+    <p style="color:#555; font-size:14px">A welcome email has been sent to your inbox (if email provided).</p>
+    <br>
+    <a href="dashboard.html" class="dashboard-btn" id="dashboardLink">
+      📊 Go to My Dashboard →
+    </a>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<script>
+  // =============================================
+  // APPS SCRIPT API URL — SIRF YAHAN CHANGE KARO
+  // =============================================
+  const API_URL = 'https://script.google.com/macros/s/AKfycbz2oPhBt8r3afKCdFbZqyhmb-yaPkn5XywFtgkPyUyAuK-AYHniMhR_aDyHh8zC457U/exec';
+
+  function showTab(tab) {
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('successCard').style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'register') || (i === 1 && tab === 'login'));
+    });
+  }
+
+  async function submitRegistration() {
+    const name = document.getElementById('reg_name').value.trim();
+    const phone = document.getElementById('reg_phone').value.trim();
+    const password = document.getElementById('reg_password').value;
+    const confirm = document.getElementById('reg_confirm').value;
+    const gender = document.getElementById('reg_gender').value;
+
+    const errDiv = document.getElementById('regError');
+    errDiv.style.display = 'none';
+
+    if (!name || !phone || !gender || !password) {
+      errDiv.textContent = '⚠️ Kripya sare required fields (*) fill karein.';
+      errDiv.style.display = 'block';
+      return;
+    }
+    if (phone.length !== 10 || isNaN(phone)) {
+      errDiv.textContent = '⚠️ Phone number 10 digits ka hona chahiye.';
+      errDiv.style.display = 'block';
+      return;
+    }
+    if (password.length < 6) {
+      errDiv.textContent = '⚠️ Password kam se kam 6 characters ka hona chahiye.';
+      errDiv.style.display = 'block';
+      return;
+    }
+    if (password !== confirm) {
+      errDiv.textContent = '⚠️ Passwords match nahi kar rahe.';
+      errDiv.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('regBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Registering...';
+
+    const data = {
+      action: 'registerPatient',
+      name, phone, gender,
+      email: document.getElementById('reg_email').value.trim(),
+      dob: document.getElementById('reg_dob').value,
+      bloodGroup: document.getElementById('reg_blood').value,
+      height: document.getElementById('reg_height').value,
+      weight: document.getElementById('reg_weight').value,
+      allergies: document.getElementById('reg_allergies').value.trim(),
+      conditions: document.getElementById('reg_conditions').value.trim(),
+      password,
+      brushTwice: document.getElementById('d_brush').checked,
+      floss: document.getElementById('d_floss').checked,
+      gumBleeding: document.getElementById('d_bleeding').checked,
+      tobaccoChewing: document.getElementById('d_tobacco').checked,
+      lastDentalVisit: document.getElementById('d_lastvisit').value,
+      exercise: document.getElementById('l_exercise').checked,
+      sleep7hrs: document.getElementById('l_sleep').checked,
+      fruitsVeg: document.getElementById('l_fruits').checked,
+      smoking: document.getElementById('l_smoking').checked,
+      stress: document.getElementById('l_stress').value
+    };
+
+    try {
+      const url = new URL(API_URL);
+      Object.keys(data).forEach(k => url.searchParams.append(k, data[k]));
+      const res = await fetch(url.toString());
+      const result = await res.json();
+
+      if (result.success) {
+        // Save to session
+        sessionStorage.setItem('healthId', result.healthId);
+        sessionStorage.setItem('patientName', result.name);
+
+        // Show success
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
+        document.getElementById('displayHealthId').textContent = result.healthId;
+        document.getElementById('displayDental').textContent = result.dentalScore + '/100';
+        document.getElementById('displayBMI').textContent = result.bmi || '--';
+        document.getElementById('displayLifestyle').textContent = result.lifestyleScore + '/100';
+        document.getElementById('dashboardLink').href = 'dashboard.html?id=' + result.healthId;
+      } else {
+        errDiv.textContent = '❌ ' + (result.error || 'Kuch problem aayi. Dobara try karein.');
+        errDiv.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '🎯 Register & Get My Free Health ID';
+      }
+    } catch (e) {
+      errDiv.textContent = '❌ Network error. Internet check karein aur dobara try karein.';
+      errDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '🎯 Register & Get My Free Health ID';
+    }
+  }
+
+  async function submitLogin() {
+    const phone = document.getElementById('login_phone').value.trim();
+    const password = document.getElementById('login_password').value;
+    const errDiv = document.getElementById('loginError');
+    errDiv.style.display = 'none';
+
+    if (!phone || !password) {
+      errDiv.textContent = '⚠️ Phone aur password dono daalen.';
+      errDiv.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Logging in...';
+
+    try {
+      const url = new URL(API_URL);
+      url.searchParams.append('action', 'loginPatient');
+      url.searchParams.append('phone', phone);
+      url.searchParams.append('password', password);
+      const res = await fetch(url.toString());
+      const result = await res.json();
+
+      if (result.success) {
+        sessionStorage.setItem('healthId', result.patient.healthId);
+        sessionStorage.setItem('patientName', result.patient.name);
+        window.location.href = 'dashboard.html?id=' + result.patient.healthId;
+      } else {
+        errDiv.textContent = '❌ ' + (result.error || 'Login fail. Details check karein.');
+        errDiv.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '🔓 Login to Dashboard';
+      }
+    } catch (e) {
+      errDiv.textContent = '❌ Network error. Internet check karein.';
+      errDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = '🔓 Login to Dashboard';
+    }
+  }
+</script>
+
+</body>
+</html>
